@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@drawable/ktv_song_bottom_bg">
+
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="24dp"
+            android:text="混响音效"
+            android:textColor="@color/ktv_song_platform_title_normal_text_color"
+            android:textSize="16dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_below="@+id/title_text"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="4dp" />
+
+        <TextView
+            android:id="@+id/style_volume_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/recyclerView"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="33dp"
+            android:text="伴奏音量"
+            android:textColor="@color/ktv_song_platform_title_normal_text_color"
+            android:textSize="14dp" />
+
+        <SeekBar
+            android:id="@+id/style_volume_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_below="@+id/recyclerView"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="33dp"
+            android:layout_toRightOf="@+id/style_volume_text"
+            android:max="100"
+            android:progressDrawable="@drawable/ktv_seekbar_bg"
+            android:splitTrack="false"
+            android:thumb="@drawable/ktv_seekbar_thumb" />
+
+        <TextView
+            android:id="@+id/vocal_volume_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/style_volume_text"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="33dp"
+            android:text="人声音量"
+            android:textColor="@color/ktv_song_platform_title_normal_text_color"
+            android:textSize="14dp" />
+
+        <SeekBar
+            android:id="@+id/vocal_volume_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_below="@+id/style_volume_seekbar"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="33dp"
+            android:layout_toRightOf="@+id/style_volume_text"
+            android:max="100"
+            android:progressDrawable="@drawable/ktv_seekbar_bg"
+            android:splitTrack="false"
+            android:thumb="@drawable/ktv_seekbar_thumb" />
+
+        <TextView
+            android:id="@+id/lift_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/vocal_volume_text"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="33dp"
+            android:text="升降调"
+            android:textColor="@color/ktv_song_platform_title_normal_text_color"
+            android:textSize="14dp"
+            android:visibility="gone" />
+
+
+        <RelativeLayout
+            android:id="@+id/lift_relay"
+            android:layout_width="90dp"
+            android:layout_height="28dp"
+            android:layout_below="@+id/vocal_volume_text"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="33dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/ktv_mix_lift_shape"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/reduce_text"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="2dp"
+                android:background="@drawable/ktv_ic_mix_circle"
+                android:gravity="center"
+                android:text="－"
+                android:textColor="#ffffff"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/lift_scale_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="-10"
+                android:textColor="@color/ktv_song_platform_title_normal_text_color"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/add_text"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="2dp"
+                android:background="@drawable/ktv_ic_mix_circle"
+                android:gravity="center"
+                android:text="+"
+                android:textColor="#ffffff"
+                android:textSize="16dp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/ear_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lift_text"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="33dp"
+            android:text="耳返"
+            android:textColor="@color/ktv_song_platform_title_normal_text_color"
+            android:textSize="14dp" />
+
+        <Switch
+            android:id="@+id/ear_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lift_relay"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="18dp"
+            android:thumb="@drawable/thumb_selector"
+            android:track="@drawable/track_selector" />
+
+        <TextView
+            android:id="@+id/intonation_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ear_text"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="33dp"
+            android:text="音准器"
+            android:textColor="@color/ktv_song_platform_title_normal_text_color"
+            android:textSize="14dp"
+            android:visibility="gone" />
+
+        <Switch
+            android:id="@+id/intonation_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ear_switch"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="28dp"
+            android:layout_marginRight="18dp"
+            android:thumb="@drawable/thumb_selector"
+            android:track="@drawable/track_selector"
+            android:visibility="gone" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:height="2dp"
+        android:gravity="center_vertical">
+        <shape>
+            <!-- 圆角 -->
+            <corners android:radius="18dip" />
+            <solid android:color="#ffffff" />
+        </shape>
+    </item>
+    <item
+        android:height="2dp"
+        android:gravity="center_vertical">
+        <clip>
+            <shape>
+                <corners android:radius="18dip" />
+                <solid android:color="#ee338f" />
+            </shape>
+        </clip>
+    </item>
+</layer-list>

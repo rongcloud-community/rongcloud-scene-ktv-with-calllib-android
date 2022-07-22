@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/search_relay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/song_edit"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="11.5dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/ktv_song_platform_dialog_search_shape"
+            android:drawableLeft="@drawable/ktv_ic_search"
+            android:hint="搜索歌曲，歌手"
+            android:imeOptions="actionSearch"
+            android:maxLines="1"
+            android:padding="6dp"
+            android:singleLine="true"
+            android:textSize="14dp" />
+
+        <ImageView
+            android:id="@+id/iv_clear"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ktv_ic_search_clear" />
+
+    </RelativeLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search_relay"
+        android:layout_marginTop="12dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/song_type_layout"
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingRight="12dp"></LinearLayout>
+    </HorizontalScrollView>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_switch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/scroll_view"
+        android:layout_marginTop="10dp" />
+
+    <include
+        android:id="@+id/search_layout"
+        layout="@layout/song_list_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/search_relay"
+        android:layout_marginTop="10dp" />
+
+</RelativeLayout>

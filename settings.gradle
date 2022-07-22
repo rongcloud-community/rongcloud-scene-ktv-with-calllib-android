@@ -1,0 +1,30 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+        maven { url 'https://maven.aliyun.com/repository/public/' }
+        maven { url "https://maven.rongcloud.cn/repository/maven-releases/" }
+        maven { url 'https://developer.huawei.com/repo/' }
+        maven { url "https://oss.jfrog.org/libs-snapshot" }
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://repo1.maven.org/maven2/' }
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://maven.aliyun.com/repository/public/' }
+        maven { url "https://maven.rongcloud.cn/repository/maven-releases/" }
+        maven { url "https://oss.jfrog.org/libs-snapshot" }
+        maven { url 'https://developer.huawei.com/repo/' }
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://repo1.maven.org/maven2/' }
+    }
+}
+rootProject.name = "KTVWithCallLib"
+include ':app'
+include ':common'
+include ':ktvmusickit'

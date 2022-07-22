@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1e1947">
+
+    <RelativeLayout
+        android:id="@+id/relay"
+        android:layout_width="match_parent"
+        android:layout_height="188dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/lrc_background_shape"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:id="@+id/screen_bg_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ktv_ic_song_screen_bg" />
+
+        <cn.rongcloud.ktvmusickit.view.lrc.LrcView
+            android:id="@+id/word_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/lrc_mix_image"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="12dp"
+            android:src="@drawable/lrc_menu" />
+
+        <ImageView
+            android:id="@+id/start_image"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="12dp"
+            android:layout_toLeftOf="@+id/play_btn"
+            android:src="@drawable/lrc_start" />
+
+        <ImageView
+            android:id="@+id/play_btn"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="12dp"
+            android:layout_toLeftOf="@+id/accompany_image"
+            android:src="@drawable/lrc_pause" />
+
+        <ImageView
+            android:id="@+id/accompany_image"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="12dp"
+            android:src="@drawable/ic_accompany" />
+    </RelativeLayout>
+
+
+    <SeekBar
+        android:id="@+id/media_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_below="@+id/relay"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="33dp"
+        android:max="100"
+        android:progressDrawable="@drawable/ktv_seekbar_bg"
+        android:thumb="@drawable/ktv_seekbar_thumb"
+        android:splitTrack="false"/>
+
+    <Button
+        android:id="@+id/btn1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/media_seekbar"
+        android:layout_marginTop="16dp"
+        android:text="已点"
+        android:layout_marginLeft="30dp"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/btn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/media_seekbar"
+        android:layout_marginTop="16dp"
+        android:layout_toRightOf="@+id/btn1"
+        android:text="合唱"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/btn3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/media_seekbar"
+        android:layout_marginTop="16dp"
+        android:layout_toRightOf="@+id/btn2"
+        android:text="独唱"
+        tools:ignore="MissingConstraints" />
+</RelativeLayout>

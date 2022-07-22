@@ -1,0 +1,23 @@
+
+<resources>
+    <attr name="text" format="string"></attr>
+    <attr name="text_size" format="dimension"></attr>
+    <attr name="text_origin_color" format="color|reference"></attr>
+    <attr name="text_change_color" format="color|reference"></attr>
+    <attr name="progress" format="float"></attr>
+    <attr name="row_height" format="integer"></attr>
+    <attr name="direction">
+        <enum name="left" value="0"></enum>
+        <enum name="right" value="1"></enum>
+    </attr>
+
+    <declare-styleable name="ColorTrackView">
+        <attr name="text">text</attr>
+        <attr name="text_size"></attr>
+        <attr name="text_origin_color"></attr>
+        <attr name="text_change_color"></attr>
+        <attr name="progress"></attr>
+        <attr name="direction"></attr>
+        <attr name="row_height"></attr>
+    </declare-styleable>
+</resources>

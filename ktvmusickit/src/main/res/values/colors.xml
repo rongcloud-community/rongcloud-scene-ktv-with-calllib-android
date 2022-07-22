@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ktv_song_platform_title_selected_text_color">#EF499A</color>
+    <color name="ktv_song_platform_title_normal_text_color">#FFFFFF</color>
+    <color name="ktv_in_process_lyc_color">#E92B88</color>
+    <color name="ktv_basis_white">#FFFFFF</color>
+    <color name="ktv_basis_transparent">#00000000</color>
+    <color name="ktv_basis_color_secondary">#757575</color>
+</resources>

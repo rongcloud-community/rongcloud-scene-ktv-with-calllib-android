@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="#ee338f" />
+    <!-- 球的宽高 -->
+    <size
+        android:width="18dp"
+        android:height="18dp" />
+    <!-- 描边 -->
+    <stroke
+        android:width="0dp"
+        android:color="#16451f" />
+</shape>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <!--    开状态背景宽高-->
+    <size
+        android:width="36dp"
+        android:height="22dp" />
+    <!--    开状态背景弧度-->
+    <corners android:radius="25dp" />
+    <!--    开状态内部渐变色-->
+    <gradient
+        android:endColor="#4cd964"
+        android:startColor="#4cd964" />
+    <!--    开状态边线颜色-->
+    <stroke
+        android:width="0dp"
+        android:color="#4cd964" />
+</shape>
