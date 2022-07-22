@@ -20,8 +20,8 @@ android {
             minifyEnabled false
             // 服务器地址
             buildConfigField("String", "BASE_SERVER_ADDRES", "\"https://rcrtc-api.rongcloud.net/\"")
-            // businessToken
-            buildConfigField("String", "BUSINESS_TOKEN", "\"xxxxxxxxxxxxx\"")
+            // businessToken 申请地址 https://rcrtc-api.rongcloud.net/code
+            buildConfigField("String", "BUSINESS_TOKEN", "\"这里是测试服务器token，需要申请 https://rcrtc-api.rongcloud.net/code\"")
         }
         release {
             minifyEnabled false
@@ -29,7 +29,7 @@ android {
             // 服务器地址
             buildConfigField("String", "BASE_SERVER_ADDRES", "\"https://rcrtc-api.rongcloud.net/\"")
             // businessToken
-            buildConfigField("String", "BUSINESS_TOKEN", "\"xxxxxxxxxxx\"")
+            buildConfigField("String", "BUSINESS_TOKEN", "\"这里是测试服务器token，需要申请 https://rcrtc-api.rongcloud.net/code\"")
         }
     }
     compileOptions {
