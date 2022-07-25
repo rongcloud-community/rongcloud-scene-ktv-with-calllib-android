@@ -48,6 +48,11 @@ public class LrcManager implements KtvSongProgressListener {
     private List<String> wordTimeList = new ArrayList();
     private List<String> mWordsList = new ArrayList();
 
+    /**
+     * 每行逐字块个数集合
+     */
+    private List<String> wordCountList = new ArrayList();
+
     LrcAnalysis lrcHandler = new LrcAnalysis();
 
 
@@ -102,6 +107,7 @@ public class LrcManager implements KtvSongProgressListener {
         mTimeList = lrcHandler.getTime();
         wordTimeList = lrcHandler.getWordTime();
         mWordsList = lrcHandler.getWords();
+        wordCountList = lrcHandler.getWordCountList();
         mLrcView.setLrcList(mWordsList);
         mLineIndex = 0;
         nowTranslateTime = 0;
@@ -252,7 +258,6 @@ public class LrcManager implements KtvSongProgressListener {
         if (mLineIndex < lineIndex) {
             mLineIndex = lineIndex;
         }
-
         //这个设置可能会被动画的setRefreshLine覆盖掉导致无效
 
         mLrcView.setIndex(mLineIndex);
@@ -264,23 +269,33 @@ public class LrcManager implements KtvSongProgressListener {
     }
 
     public void refreshWordAnim(long time) {
-        if (mLineIndex >= wordTimeList.size()) {
+        if (mLineIndex >= wordTimeList.size() || mLineIndex > wordCountList.size()) {
             return;
         }
         //获取当前行所有尖括号时间
         String wordTimeString = wordTimeList.get(mLineIndex);
-        if (wordTimeString != null && !wordTimeString.equals("null")) {
+        //获取当前行每对尖括号时间之间的字数
+        String wordCountString = wordCountList.get(mLineIndex);
+        if (wordTimeString != null && !wordTimeString.equals("null") && wordCountString != null && !wordCountString.equals("null")) {
             //当前行每个尖括号时间放入数组
-            String[] wordTimeArray = wordTimeString.split("\\*");
-
+            String[] wordTimeArray = wordTimeString.split("\\" + LrcAnalysis.SEPARATOR);
+            //当前行每对尖括号时间之间的词个数放入数组
+            String[] wordCountArray = wordCountString.split("\\" + LrcAnalysis.SEPARATOR);
+            if (wordTimeArray.length == 0 || wordCountArray.length == 0 || wordTimeArray.length != wordCountArray.length + 1) {
+                return;
+            }
+            int preCount = 0;
             for (int i = 0; i < wordTimeArray.length - 1; i++) {
+                if (i != 0) {
+                    preCount = preCount + Integer.parseInt(wordCountArray[i - 1]);
+                }
                 float preTime = Long.parseLong(wordTimeArray[i]);
                 float nextTime = Long.parseLong(wordTimeArray[i + 1]);
                 if (preTime < time && time < nextTime) {
                     float ratio = (time - preTime) / (nextTime - preTime);
                     float distance = mLrcView.getSingleWidth();
 
-                    mLrcView.setClipRectRight((int) (i * distance + distance * ratio));
+                    mLrcView.setClipRectRight((int) (preCount * distance + Integer.parseInt(wordCountArray[i]) * distance * ratio));
                     mLrcView.postInvalidate();
                     break;
                 }
@@ -325,7 +340,10 @@ public class LrcManager implements KtvSongProgressListener {
     public void playEnd() {
         setLrcFile("");
         setCurrentTime(0);
-        KToast.show("所有歌曲都已播放完毕~");
+        if (mLrcView != null) {
+            mLrcView.setClipRectRight(10000);
+            mLrcView.postInvalidate();
+        }
     }
 
     /**

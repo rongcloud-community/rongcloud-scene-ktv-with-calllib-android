@@ -16,9 +16,27 @@ import java.util.regex.Pattern;
  * 歌词文件解析类
  */
 public class LrcAnalysis {
+    /**
+     * 歌词集合
+     */
     private List mWords = new ArrayList();
+    /**
+     * 行时间集合
+     */
     private List<Integer> mTimeList = new ArrayList();
+    /**
+     * 逐字时间集合
+     */
     private List<String> wordTimeList = new ArrayList();
+
+    /**
+     * 每行逐字块个数集合
+     */
+    private List<String> wordCountList = new ArrayList();
+    /**
+     * 逐字分隔符
+     */
+    public static final char SEPARATOR = '*';
 
     //处理歌词⽂件
     public void readLRC(String path) {
@@ -26,6 +44,7 @@ public class LrcAnalysis {
             mWords.clear();
             mTimeList.clear();
             wordTimeList.clear();
+            wordCountList.clear();
             File file = new File(path);
             FileInputStream fileInputStream = new FileInputStream(file);
             //目前先默认读取assets资源文件的歌词
@@ -67,16 +86,25 @@ public class LrcAnalysis {
         return wordTimeList;
     }
 
+    public List<String> getWordCountList() {
+        return wordCountList;
+    }
+
     // 分离出时间
     public int timeHandler(String string) {
-        string = string.replace(".", ":");
-        String timeData[] = string.split(":");
-        // 分离出分、秒并转换为整型
-        int minute = Integer.parseInt(timeData[0]);
-        int second = Integer.parseInt(timeData[1]);
-        int millisecond = Integer.parseInt(timeData[2].substring(0, 2));
-        // 计算上⼀⾏与下⼀⾏的时间转换为毫秒数
-        int currentTime = (minute * 60 + second) * 1000 + millisecond * 10;
+        int currentTime = 0;
+        try {
+            string = string.replace(".", ":");
+            String timeData[] = string.split(":");
+            // 分离出分、秒并转换为整型
+            int minute = Integer.parseInt(timeData[0]);
+            int second = Integer.parseInt(timeData[1]);
+            int millisecond = Integer.parseInt(timeData[2].substring(0, 2));
+            // 计算上⼀⾏与下⼀⾏的时间转换为毫秒数
+            currentTime = (minute * 60 + second) * 1000 + millisecond * 10;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return currentTime;
     }
 
@@ -106,13 +134,29 @@ public class LrcAnalysis {
         Matcher matcher = Pattern.compile(
                 "\\<\\d{1,2}:\\d{1,2}([\\.:]\\d{1,2})?\\>").matcher(string);
         wordTimeList.add(lineIndex, "null");
+        wordCountList.add(lineIndex, "null");
+        String tempTime = null;
         while (matcher.find()) {
             String str = matcher.group();
+            if (tempTime != null && !tempTime.equals("")) {
+                String[] tempStringArray = string.split(tempTime);
+                if (tempStringArray != null && tempStringArray.length == 2 &&
+                        tempStringArray[1].split(str) != null && tempStringArray[1].split(str).length > 0) {
+                    int length = tempStringArray[1].split(str)[0].length();
+                    String oldWordCountStr = "";
+                    if (!wordCountList.get(lineIndex).equals("null")) {
+                        oldWordCountStr = wordCountList.get(lineIndex) + SEPARATOR;
+                    }
+                    wordCountList.set(lineIndex, oldWordCountStr + length);
+                }
+            }
+            tempTime = str;
+
             String oldWordTimeStr = "";
             if (wordTimeList.get(lineIndex).equals("null")) {
                 oldWordTimeStr = "";
             } else {
-                oldWordTimeStr = wordTimeList.get(lineIndex) + "*";
+                oldWordTimeStr = wordTimeList.get(lineIndex) + SEPARATOR;
             }
             wordTimeList.set(lineIndex, oldWordTimeStr + new LrcAnalysis().timeHandler(str.substring(1,
                     str.length() - 1)));
