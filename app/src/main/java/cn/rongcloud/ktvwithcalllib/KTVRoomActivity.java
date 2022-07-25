@@ -179,6 +179,8 @@ public class KTVRoomActivity extends BaseActivity implements View.OnClickListene
     private boolean isPlaying = false;
     // 声音路由类型
     private RCAudioRouteType routeType;
+    // 是否通话中
+    private boolean isCalling = false;
 
     // 拨打者调用
     public static void call(Context context, String targetId, String targetName) {
@@ -388,6 +390,15 @@ public class KTVRoomActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        // 锁屏后一段时间一些手机会关闭摄像头，这里重新打开一下。
+        if(isCalling){
+            RongCallClient.getInstance().startCapture();
+        }
+    }
+
+    @Override
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.btn_hangup || id == R.id.btn_hangup1) {
@@ -424,6 +435,8 @@ public class KTVRoomActivity extends BaseActivity implements View.OnClickListene
 
         @Override
         public void onCallConnected(RongCallSession callSession, SurfaceView localVideo) {
+            isCalling = true;
+            RongCallClient.getInstance().startCapture();
             // 通话连接后
             KTVRoomActivity.this.callSession = callSession;
             // 自己的视频添加到自己的view容器中
@@ -443,6 +456,7 @@ public class KTVRoomActivity extends BaseActivity implements View.OnClickListene
 
         @Override
         public void onCallDisconnected(RongCallSession callSession, RongCallCommon.CallDisconnectedReason reason) {
+            isCalling = false;
             // 断开连接
             deleteKtvSetting();
         }

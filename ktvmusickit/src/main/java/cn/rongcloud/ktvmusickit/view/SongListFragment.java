@@ -51,6 +51,7 @@ public class SongListFragment extends BaseFragment {
     private SmartRefreshLayout srlRefresh;
     private ClassicsHeader classicsHeader;
     private ClassicsFooter classicsFooter;
+    private TextView tvEmpty;
     /**
      * 页码
      */
@@ -77,6 +78,8 @@ public class SongListFragment extends BaseFragment {
         classicsFooter = getView().findViewById(R.id.footer);
         classicsFooter.setAccentColor(Color.WHITE);
         srlRefresh = getLayout().findViewById(R.id.srl_refresh);
+        tvEmpty = getLayout().findViewById(R.id.null_text);
+        tvEmpty.setText("暂无歌曲");
         getView().findViewById(R.id.line).setVisibility(View.GONE);
         getView().findViewById(R.id.wheat_control).setVisibility(View.GONE);
         mRecyclerView = getView().findViewById(R.id.recyclerView);
