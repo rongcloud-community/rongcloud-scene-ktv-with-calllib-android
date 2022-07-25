@@ -508,6 +508,11 @@ public class KTVRoomActivity extends BaseActivity implements View.OnClickListene
         }
 
         @Override
+        public void onFirstRemoteAudioFrame(String userId) {
+
+        }
+
+        @Override
         public void onAudioLevelSend(String audioLevel) {
 
         }

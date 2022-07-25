@@ -39,8 +39,8 @@ ext {
     walleVersion = "1.1.7"
 
     // 融云相关库
-    imLib = "5.2.3"
-    rtcLib = "5.2.3"
+    imLib = "5.2.4"
+    rtcLib = "5.2.4"
     musicLib = "1.0.1"
     corekitLib = "1.0.0"
     voiceroomLib = "2.0.8.2"
