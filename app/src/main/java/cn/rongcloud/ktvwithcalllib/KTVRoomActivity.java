@@ -120,13 +120,8 @@ public class KTVRoomActivity extends BaseActivity implements View.OnClickListene
             add(new Effect(RCRTCVoiceBeautifierPreset.HYPERACTIVITY, "高亢"));
             add(new Effect(RCRTCVoiceBeautifierPreset.FALSETTO, "假声"));
             add(new Effect(RCRTCVoiceBeautifierPreset.HULK, "绿巨人"));
-            add(new Effect(RCRTCVoiceBeautifierPreset.BOY, "男孩"));
-            add(new Effect(RCRTCVoiceBeautifierPreset.GIRL, "女孩"));
-            add(new Effect(RCRTCVoiceBeautifierPreset.OLD_MAN, "老男人"));
             add(new Effect(RCRTCVoiceBeautifierPreset.VOCAL_CONCERT, "演唱会"));
             add(new Effect(RCRTCVoiceBeautifierPreset.KTV, "KTV"));
-            add(new Effect(RCRTCVoiceBeautifierPreset.BOY_TO_MAN, "男青年"));
-            add(new Effect(RCRTCVoiceBeautifierPreset.GIRL_TO_WOMAN, "女青年"));
         }
     };
     private List effectNames = new ArrayList();
