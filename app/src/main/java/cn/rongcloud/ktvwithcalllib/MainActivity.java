@@ -23,6 +23,7 @@ import com.basis.net.oklib.wrapper.Wrapper;
 import com.basis.utils.KToast;
 import com.basis.utils.Logger;
 
+import cn.rongcloud.ktvmusickit.songutil.LrcAnalysis;
 import cn.rongcloud.ktvwithcalllib.bean.User;
 import cn.rongcloud.ktvwithcalllib.user.UserManager;
 import io.rong.calllib.IRongReceivedCallListener;
@@ -103,7 +104,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 ActivityCompat.requestPermissions(this, PERMISSIONS, 1000);
             }
-            // TestActivity.launch(this);
         }
     }
 

@@ -9,9 +9,11 @@ import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
 
 import com.basis.utils.KToast;
+import com.basis.utils.Logger;
 
 import cn.rongcloud.ktvmusickit.R;
 import cn.rongcloud.ktvmusickit.listener.KtvSongProgressListener;
+import cn.rongcloud.ktvmusickit.songutil.BaseParse;
 import cn.rongcloud.ktvmusickit.songutil.LrcAnalysis;
 import cn.rongcloud.ktvmusickit.view.SongScreenView;
 import cn.rongcloud.ktvmusickit.view.lrc.LrcView;
@@ -44,7 +46,7 @@ public class LrcManager implements KtvSongProgressListener {
      */
     private View lrcCircle4;
     private LrcView mLrcView;
-    private List<Integer> mTimeList = new ArrayList<>();
+    private List<Long> mTimeList = new ArrayList<>();
     private List<String> wordTimeList = new ArrayList();
     private List<String> mWordsList = new ArrayList();
 
@@ -108,6 +110,10 @@ public class LrcManager implements KtvSongProgressListener {
         wordTimeList = lrcHandler.getWordTime();
         mWordsList = lrcHandler.getWords();
         wordCountList = lrcHandler.getWordCountList();
+        Logger.e(mTimeList);
+        Logger.e(wordTimeList);
+        Logger.e(mWordsList);
+        Logger.e(wordCountList);
         mLrcView.setLrcList(mWordsList);
         mLineIndex = 0;
         nowTranslateTime = 0;
@@ -211,7 +217,7 @@ public class LrcManager implements KtvSongProgressListener {
             return;
         }
         if (nowTime < mTimeList.get(0)) {
-            mLrcView.setClipRectRight(1000);
+            mLrcView.setClipRectRight(0);
             //这里表明是开头第一行
             refreshLine(0);
             return;
@@ -278,27 +284,34 @@ public class LrcManager implements KtvSongProgressListener {
         String wordCountString = wordCountList.get(mLineIndex);
         if (wordTimeString != null && !wordTimeString.equals("null") && wordCountString != null && !wordCountString.equals("null")) {
             //当前行每个尖括号时间放入数组
-            String[] wordTimeArray = wordTimeString.split("\\" + LrcAnalysis.SEPARATOR);
+            String[] wordTimeArray = wordTimeString.split(BaseParse.SEPARATOR);
             //当前行每对尖括号时间之间的词个数放入数组
-            String[] wordCountArray = wordCountString.split("\\" + LrcAnalysis.SEPARATOR);
+            String[] wordCountArray = wordCountString.split(BaseParse.SEPARATOR);
             if (wordTimeArray.length == 0 || wordCountArray.length == 0 || wordTimeArray.length != wordCountArray.length + 1) {
                 return;
             }
             int preCount = 0;
+            boolean isInvalidate = false;
             for (int i = 0; i < wordTimeArray.length - 1; i++) {
                 if (i != 0) {
                     preCount = preCount + Integer.parseInt(wordCountArray[i - 1]);
                 }
                 float preTime = Long.parseLong(wordTimeArray[i]);
                 float nextTime = Long.parseLong(wordTimeArray[i + 1]);
+                float ratio = 1;
                 if (preTime < time && time < nextTime) {
-                    float ratio = (time - preTime) / (nextTime - preTime);
+                    ratio = (time - preTime) / (nextTime - preTime);
                     float distance = mLrcView.getSingleWidth();
-
                     mLrcView.setClipRectRight((int) (preCount * distance + Integer.parseInt(wordCountArray[i]) * distance * ratio));
                     mLrcView.postInvalidate();
+                    isInvalidate = true;
                     break;
                 }
+            }
+            if (!isInvalidate) {
+                //如果没有逐字时间，则整行覆盖唱过的颜色
+                mLrcView.setClipRectRight(10000);
+                mLrcView.postInvalidate();
             }
         } else {
             //如果没有逐字时间，则整行覆盖唱过的颜色
@@ -356,7 +369,7 @@ public class LrcManager implements KtvSongProgressListener {
                 mTimeList.get(0) < 4000) {
             return;
         }
-        int firstTime = mTimeList.get(0);
+        long firstTime = mTimeList.get(0);
         if (currentPositionTime < firstTime) {
             if (firstTime - 4000 <= currentPositionTime && currentPositionTime < firstTime - 3000) {
                 handler.sendEmptyMessage(4);

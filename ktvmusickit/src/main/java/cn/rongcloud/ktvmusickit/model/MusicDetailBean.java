@@ -1,6 +1,8 @@
 package cn.rongcloud.ktvmusickit.model;
 
 
+import android.text.TextUtils;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -19,6 +21,8 @@ public class MusicDetailBean {
     private String musicId;
     @SerializedName("dynamicLyricUrl")
     private String dynamicLyricUrl;
+    @SerializedName("kugouLyricUrl")
+    private String kugouLyricUrl;
     @SerializedName("staticLyricUrl")
     private String staticLyricUrl;
     @SerializedName("subVersions")
@@ -105,5 +109,23 @@ public class MusicDetailBean {
 
     public void setAuthorName(String authorName) {
         this.authorName = authorName;
+    }
+
+    public String getKugouLyricUrl() {
+        return kugouLyricUrl;
+    }
+
+    public void setKugouLyricUrl(String kugouLyricUrl) {
+        this.kugouLyricUrl = kugouLyricUrl;
+    }
+
+    public String getLyricUrl(){
+        if(!TextUtils.isEmpty(kugouLyricUrl)){
+            return kugouLyricUrl;
+        }else if(!TextUtils.isEmpty(dynamicLyricUrl)){
+            return dynamicLyricUrl;
+        }else{
+            return staticLyricUrl;
+        }
     }
 }

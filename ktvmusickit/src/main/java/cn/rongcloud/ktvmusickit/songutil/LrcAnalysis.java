@@ -1,15 +1,16 @@
 package cn.rongcloud.ktvmusickit.songutil;
 
+import com.basis.utils.UIKit;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 /**
@@ -19,11 +20,11 @@ public class LrcAnalysis {
     /**
      * 歌词集合
      */
-    private List mWords = new ArrayList();
+    private List<String> mWords = new ArrayList();
     /**
      * 行时间集合
      */
-    private List<Integer> mTimeList = new ArrayList();
+    private List<Long> mTimeList = new ArrayList();
     /**
      * 逐字时间集合
      */
@@ -33,14 +34,33 @@ public class LrcAnalysis {
      * 每行逐字块个数集合
      */
     private List<String> wordCountList = new ArrayList();
+
+    private List<BaseParse> parseLrcList;
+
+    private BaseParse mParseLrc;
+
+    public LrcAnalysis() {
+        parseLrcList = new ArrayList<>();
+        parseLrcList.add(new KrcParse());
+        parseLrcList.add(new HFParse());
+        parseLrcList.add(new LrcParse());
+    }
+
     /**
-     * 逐字分隔符
+     * 添加自定义解析器
+     *
+     * @param parseLrc
      */
-    public static final char SEPARATOR = '*';
+    public void addParse(BaseParse parseLrc) {
+        if (parseLrc != null) {
+            parseLrcList.add(parseLrc);
+        }
+    }
 
     //处理歌词⽂件
     public void readLRC(String path) {
         try {
+            mParseLrc = null;
             mWords.clear();
             mTimeList.clear();
             wordTimeList.clear();
@@ -48,7 +68,7 @@ public class LrcAnalysis {
             File file = new File(path);
             FileInputStream fileInputStream = new FileInputStream(file);
             //目前先默认读取assets资源文件的歌词
-//            InputStream fileInputStream =  getResources().getAssets().open("song_lrc.txt");
+            // InputStream fileInputStream = UIKit.getContext().getResources().getAssets().open("2.krc");
             InputStreamReader inputStreamReader = new InputStreamReader(
                     fileInputStream, "UTF-8");
             BufferedReader bufferedReader = new BufferedReader(
@@ -74,15 +94,15 @@ public class LrcAnalysis {
         }
     }
 
-    public List getWords() {
+    public List<String> getWords() {
         return mWords;
     }
 
-    public List getTime() {
+    public List<Long> getTime() {
         return mTimeList;
     }
 
-    public List getWordTime() {
+    public List<String> getWordTime() {
         return wordTimeList;
     }
 
@@ -90,23 +110,6 @@ public class LrcAnalysis {
         return wordCountList;
     }
 
-    // 分离出时间
-    public int timeHandler(String string) {
-        int currentTime = 0;
-        try {
-            string = string.replace(".", ":");
-            String timeData[] = string.split(":");
-            // 分离出分、秒并转换为整型
-            int minute = Integer.parseInt(timeData[0]);
-            int second = Integer.parseInt(timeData[1]);
-            int millisecond = Integer.parseInt(timeData[2].substring(0, 2));
-            // 计算上⼀⾏与下⼀⾏的时间转换为毫秒数
-            currentTime = (minute * 60 + second) * 1000 + millisecond * 10;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return currentTime;
-    }
 
     /**
      * 获取每行头部时间
@@ -114,63 +117,32 @@ public class LrcAnalysis {
      * @param string 每行内容
      */
     private void addTimeToList(String string) {
-        Matcher matcher = Pattern.compile(
-                "\\[\\d{1,2}:\\d{1,2}([\\.:]\\d{1,3})?\\]").matcher(string);
-        if (matcher.find()) {
-            String str = matcher.group();
-            mTimeList.add(new LrcAnalysis().timeHandler(str.substring(1,
-                    str.length() - 1)));
-            mWords.add(matcherWord(string.replace(str, "")));
-            addWordTime(string, mTimeList.size() - 1);
-        }
-    }
-
-    /**
-     * 获取所有尖括号时间
-     *
-     * @param string 每行的内容
-     */
-    private void addWordTime(String string, int lineIndex) {
-        Matcher matcher = Pattern.compile(
-                "\\<\\d{1,2}:\\d{1,2}([\\.:]\\d{1,2})?\\>").matcher(string);
-        wordTimeList.add(lineIndex, "null");
-        wordCountList.add(lineIndex, "null");
-        String tempTime = null;
-        while (matcher.find()) {
-            String str = matcher.group();
-            if (tempTime != null && !tempTime.equals("")) {
-                String[] tempStringArray = string.split(tempTime);
-                if (tempStringArray != null && tempStringArray.length == 2 &&
-                        tempStringArray[1].split(str) != null && tempStringArray[1].split(str).length > 0) {
-                    int length = tempStringArray[1].split(str)[0].length();
-                    String oldWordCountStr = "";
-                    if (!wordCountList.get(lineIndex).equals("null")) {
-                        oldWordCountStr = wordCountList.get(lineIndex) + SEPARATOR;
-                    }
-                    wordCountList.set(lineIndex, oldWordCountStr + length);
+        // 确定使用哪种歌词解析
+        if (mParseLrc == null) {
+            for (BaseParse iParseLrc : parseLrcList) {
+                if (iParseLrc.isMatch(string)) {
+                    mParseLrc = iParseLrc;
+                    break;
                 }
             }
-            tempTime = str;
-
-            String oldWordTimeStr = "";
-            if (wordTimeList.get(lineIndex).equals("null")) {
-                oldWordTimeStr = "";
+        }
+        if (mParseLrc == null) {
+            return;
+        }
+        boolean isParse = mParseLrc.parseLrcInfo(string);
+        if (isParse) {
+            mTimeList.add(mParseLrc.startTime);
+            mWords.add(mParseLrc.lineLrc);
+            if (mParseLrc.lineWordTime != null) {
+                wordTimeList.add(mParseLrc.lineWordTime.toString());
             } else {
-                oldWordTimeStr = wordTimeList.get(lineIndex) + SEPARATOR;
+                wordTimeList.add("null");
             }
-            wordTimeList.set(lineIndex, oldWordTimeStr + new LrcAnalysis().timeHandler(str.substring(1,
-                    str.length() - 1)));
+            if (mParseLrc.lineWordCount != null) {
+                wordCountList.add(mParseLrc.lineWordCount.toString());
+            } else {
+                wordCountList.add("null");
+            }
         }
-    }
-
-    public String matcherWord(String str) {
-        Matcher matchers = Pattern.compile(
-                "\\<\\d{1,2}:\\d{1,2}([\\.:]\\d{1,3})?\\>").matcher(str);
-        while (matchers.find()) {
-            String bracketsStr = matchers.group();
-            str = str.replace(bracketsStr, "");
-        }
-        str = str.replace("{W}", "");
-        return str;
     }
 }

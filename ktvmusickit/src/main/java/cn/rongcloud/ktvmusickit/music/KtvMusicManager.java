@@ -293,7 +293,7 @@ public class KtvMusicManager implements KtvSongNetworkInterfaceListener {
 
     @Override
     public void onDownloadLrc(MusicDetailBean musicDetailBean) {
-        if (musicDetailBean.getMusicId() == null || musicDetailBean.getMusicId().equals("") || musicDetailBean.getDynamicLyricUrl() == null || musicDetailBean.getDynamicLyricUrl().equals("")) {
+        if (musicDetailBean.getMusicId() == null || musicDetailBean.getMusicId().equals("") || TextUtils.isEmpty(musicDetailBean.getLyricUrl()) || musicDetailBean.getDynamicLyricUrl().equals("")) {
             return;
         }
         // 以歌名+lyric为存储歌词文件名
@@ -304,7 +304,7 @@ public class KtvMusicManager implements KtvSongNetworkInterfaceListener {
             return;
         }
         //这是开始下载歌词的方法
-        OkApi.download(musicDetailBean.getDynamicLyricUrl(), null, new FileIOCallBack(musicPath, name) {
+        OkApi.download(musicDetailBean.getLyricUrl(), null, new FileIOCallBack(musicPath, name) {
             @Override
             public void onProgress(float progress, long total) {
                 super.onProgress(progress, total);

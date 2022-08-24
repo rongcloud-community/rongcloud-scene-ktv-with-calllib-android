@@ -27,7 +27,6 @@
 
         <activity android:name="cn.rongcloud.ktvwithcalllib.MainActivity" />
         <activity android:name="cn.rongcloud.ktvwithcalllib.KTVRoomActivity" />
-        <activity android:name=".TestActivity" />
 
     </application>
 
