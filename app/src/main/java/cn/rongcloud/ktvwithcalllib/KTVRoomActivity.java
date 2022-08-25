@@ -56,6 +56,7 @@ import cn.rongcloud.rtc.api.callback.IRCRTCAudioDataListener;
 import cn.rongcloud.rtc.api.callback.IRCRTCAudioRouteListener;
 import cn.rongcloud.rtc.api.callback.IRCRTCResultCallback;
 import cn.rongcloud.rtc.api.callback.RCRTCAudioMixingStateChangeListener;
+import cn.rongcloud.rtc.api.stream.RCRTCVideoStreamConfig;
 import cn.rongcloud.rtc.api.stream.RCRTCVideoView;
 import cn.rongcloud.rtc.audioroute.RCAudioRouteType;
 import cn.rongcloud.rtc.base.RCRTCAudioFrame;
@@ -388,7 +389,7 @@ public class KTVRoomActivity extends BaseActivity implements View.OnClickListene
     protected void onResume() {
         super.onResume();
         // 锁屏后一段时间一些手机会关闭摄像头，这里重新打开一下。
-        if(isCalling){
+        if (isCalling) {
             RongCallClient.getInstance().startCapture();
         }
     }
@@ -432,6 +433,7 @@ public class KTVRoomActivity extends BaseActivity implements View.OnClickListene
         public void onCallConnected(RongCallSession callSession, SurfaceView localVideo) {
             isCalling = true;
             RongCallClient.getInstance().startCapture();
+            RongCallClient.getInstance().setVideoConfig(RCRTCVideoStreamConfig.Builder.create().setVideoResolution(RCRTCParamsType.RCRTCVideoResolution.RESOLUTION_720_1280));
             // 通话连接后
             KTVRoomActivity.this.callSession = callSession;
             // 自己的视频添加到自己的view容器中

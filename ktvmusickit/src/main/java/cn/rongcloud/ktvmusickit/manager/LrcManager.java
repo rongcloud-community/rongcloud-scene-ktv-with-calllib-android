@@ -8,9 +8,6 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
 
-import com.basis.utils.KToast;
-import com.basis.utils.Logger;
-
 import cn.rongcloud.ktvmusickit.R;
 import cn.rongcloud.ktvmusickit.listener.KtvSongProgressListener;
 import cn.rongcloud.ktvmusickit.songutil.BaseParse;
@@ -110,10 +107,6 @@ public class LrcManager implements KtvSongProgressListener {
         wordTimeList = lrcHandler.getWordTime();
         mWordsList = lrcHandler.getWords();
         wordCountList = lrcHandler.getWordCountList();
-        Logger.e(mTimeList);
-        Logger.e(wordTimeList);
-        Logger.e(mWordsList);
-        Logger.e(wordCountList);
         mLrcView.setLrcList(mWordsList);
         mLineIndex = 0;
         nowTranslateTime = 0;
